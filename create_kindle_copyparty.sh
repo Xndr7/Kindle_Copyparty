@@ -38,7 +38,7 @@ COPYPARTYCONFIG='
 [global]
   # listen on port 3923
   i: 0.0.0.0
-  e2dsa, e2ts, z, qr, sss # enable file indexing and filesystem scanning
+  e2dsa, e2ts, z, qr, sss       # enable file indexing and filesystem scanning
   # and enable multimedia indexing
   # and zeroconf and qrcode (you can comma-separate arguments)
   
