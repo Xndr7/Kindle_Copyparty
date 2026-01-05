@@ -1,6 +1,26 @@
 #!/bin/sh
 
 ALREADYMOUNTED="no"
+COPYPARTYCONFIG='
+[global]
+  # listen on port 3923
+  i: 0.0.0.0
+  e2dsa, e2ts, z, qr, sss       # enable file indexing and filesystem scanning
+  # and enable multimedia indexing
+  # and zeroconf and qrcode (you can comma-separate arguments)
+  
+# create users:
+[accounts]
+  kindle: copyparty   # username: password
+
+# create volumes:
+[/]         # create a volume at "/" (the webroot), which will
+  /kindle/copyparty/srv        # share the contents of "/kindle/copyparty/srv" (the current directory)
+  accs:
+    r: *    # everyone gets read-access, but
+    rw: kindle  # the user "kindle" gets read-write
+'
+
 if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
 	ALREADYMOUNTED="yes"
 	echo "ATTENTION! Alpine's rootfs is already mounted, so you will be dropped into it."
@@ -8,7 +28,9 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
    else
 	echo "Mounting Alpine rootfs"
 	mkdir -p /tmp/kindle_copyparty
-	mount -o loop,noatime -t ext3 /mnt/us/extensions/kindle_copyparty/kindle_copyparty.ext3 /tmp/kindle_copyparty
+	echo "$COPYPARTYCONFIG" > "/mnt/us/extensions/kindle_copyparty/copyparty/copyparty.conf"
+	curl -L -o /mnt/us/extensions/kindle_copyparty/copyparty/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
+    mount -o loop,noatime -t ext3 /mnt/us/extensions/kindle_copyparty/kindle_copyparty.ext3 /tmp/kindle_copyparty
 	mount -o bind /dev /tmp/kindle_copyparty/dev
 	mount -o bind /dev/pts /tmp/kindle_copyparty/dev/pts
 	mount -o bind /proc /tmp/kindle_copyparty/proc
