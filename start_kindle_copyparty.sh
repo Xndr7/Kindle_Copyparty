@@ -19,7 +19,7 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
     mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/srv
     cp /etc/hosts /tmp/kindle_copyparty/etc/hosts
 	chmod a+w /dev/shm
-	sudo iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
+	iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
 
 fi
 
