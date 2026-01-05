@@ -8,15 +8,15 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
    else
 	echo "Mounting Alpine rootfs"
 	mkdir -p /tmp/kindle_copyparty
-	mount -o loop,noatime -t ext3 /mnt/us/kindle_copyparty/kindle_copyparty.ext3 /tmp/kindle_copyparty
+	mount -o loop,noatime -t ext3 /mnt/us/extensions/kindle_copyparty/kindle_copyparty.ext3 /tmp/kindle_copyparty
 	mount -o bind /dev /tmp/kindle_copyparty/dev
 	mount -o bind /dev/pts /tmp/kindle_copyparty/dev/pts
 	mount -o bind /proc /tmp/kindle_copyparty/proc
 	mount -o bind /sys /tmp/kindle_copyparty/sys
 	mount -o bind /var/run/dbus/ /tmp/kindle_copyparty/run/dbus/
-	mkdir -p /mnt/kindle/copyparty/srv
+	mkdir -p /mnt/us/extensions/kindle_copyparty/copyparty/srv
   mkdir -p /tmp/kindle_copyparty/kindle/srv
-  mount -o bind /mnt/kindle/copyparty/srv /tmp/kindle_copyparty/kindle/srv
+  mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/srv
   cp /etc/hosts /tmp/kindle_copyparty/etc/hosts
 	chmod a+w /dev/shm
 fi
