@@ -1,0 +1,72 @@
+name: Build Alpine Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            qemu-user-static \
+            curl \
+            git \
+            sudo \
+            libssl-dev \
+            build-essential \
+            jq
+      
+      - name: Make scripts executable
+        run: |
+          chmod +x ./create_kindle_copyparty.sh
+
+      - name: Run bash script to create image
+        run: |
+          sudo ./create_kindle_copyparty.sh >> $GITHUB_ENV
+
+      - name: Create zip file 
+        run: |
+          FILE_NAME="kindle_copyparty_alpine$ALPINE_VERSION" 
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+          sudo zip "$FILE_NAME.zip" ./kindle_copyparty.conf ./kindle_copyparty.sh ./kindle_copyparty.ext3
+
+      - name: Create GitHub Release and Upload Zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        run: |
+          TAG_NAME="v$(date +'%Y.%m%d.%H%M%S')" 
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+          echo $TAG_NAME
+          REPO="${{ github.repository }}" 
+          echo "$REPO"
+          echo "tag name is: $TAG_NAME" 
+          RESPONSE=$(curl -s -X POST "https://api.github.com/repos/${REPO}/releases" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -d @- <<EOF
+          {
+            "tag_name": "$TAG_NAME",
+            "name": "$TAG_NAME"
+          }
+          EOF
+          )
+
+          echo "$RESPONSE" 
+
+          UPLOAD_URL=$(echo "$RESPONSE" | jq -r .upload_url | sed -e 's/{?name,label}//')
+          echo "$UPLOAD_URL" 
+
+          # Upload the release asset (the zip file)
+          curl -X POST --data-binary @$FILE_NAME.zip\
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/zip" \
+            "$UPLOAD_URL?name=$FILE_NAME.zip"
