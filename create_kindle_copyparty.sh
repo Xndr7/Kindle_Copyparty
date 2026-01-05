@@ -116,6 +116,7 @@ $REPO/edge/testing/
 $REPO/latest-stable/community" > "$MNT/etc/apk/repositories"
 # Create the script to start the gui
 echo "$STARTKINDLECOPYPARTY" > "$MNT/start_kindle_copyparty.sh"
+mkdir -p "$MNT/kindle/copyparty" 
 mkdir -p "$MNT/kindle/copyparty/srv" 
 echo "$COPYPARTYCONFIG" > "$MNT/kindle/copyparty/copyparty.conf"
 chmod +x "$MNT/start_kindle_copyparty.sh"
