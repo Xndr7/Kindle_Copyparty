@@ -15,10 +15,12 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
 	mount -o bind /sys /tmp/kindle_copyparty/sys
 	mount -o bind /var/run/dbus/ /tmp/kindle_copyparty/run/dbus/
 	mkdir -p /mnt/us/extensions/kindle_copyparty/copyparty/srv
-  mkdir -p /tmp/kindle_copyparty/kindle/srv
-  mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/srv
-  cp /etc/hosts /tmp/kindle_copyparty/etc/hosts
+    mkdir -p /tmp/kindle_copyparty/kindle/srv
+    mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/srv
+    cp /etc/hosts /tmp/kindle_copyparty/etc/hosts
 	chmod a+w /dev/shm
+	sudo iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
+
 fi
 
 echo "You're now being dropped into Alpine's shell"
