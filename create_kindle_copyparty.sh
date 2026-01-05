@@ -29,8 +29,28 @@ sh"
 
 STARTKINDLECOPYPARTY='#!/bin/sh
 chmod a+w /dev/shm 
-python3 /kindle/copyparty/srv/copyparty-sfx.py -sss -i 0.0.0.0
+python3 /kindle/copyparty/srv/copyparty-sfx.py -c /copyparty.conf
 ' 
+COPYPARTYCONFIG='
+[global]
+  p: 8923 # listen on port 3923
+  i: 0.0.0.0
+  e2dsa  # enable file indexing and filesystem scanning
+  e2ts # and enable multimedia indexing
+  z, qr  # and zeroconf and qrcode (you can comma-separate arguments)
+  sss
+  
+# create users:
+[accounts]
+  kindle: copyparty   # username: password
+
+# create volumes:
+[/]         # create a volume at "/" (the webroot), which will
+  /kindle/copyparty/srv        # share the contents of "." (the current directory)
+  accs:
+    r: *    # everyone gets read-access, but
+    rw: kindle  # the user "ed" gets read-write
+'
 
 # ENSURE ROOT
 # This script needs root access to e.g. mount the image
@@ -94,6 +114,8 @@ $REPO/edge/testing/
 $REPO/latest-stable/community" > "$MNT/etc/apk/repositories"
 # Create the script to start the gui
 echo "$STARTKINDLECOPYPARTY" > "$MNT/start_kindle_copyparty.sh"
+mkdir -p "$MNT/kindle/copyparty/srv" 
+echo "$COPYPARTYCONFIG" > "$MNT/kindle/copyparty/copyparty.conf"
 chmod +x "$MNT/start_kindle_copyparty.sh"
 
 
