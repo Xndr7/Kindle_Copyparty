@@ -15,8 +15,8 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
 	mount -o bind /sys /tmp/kindle_copyparty/sys
 	mount -o bind /var/run/dbus/ /tmp/kindle_copyparty/run/dbus/
 	mkdir -p /mnt/us/extensions/kindle_copyparty/copyparty/srv
-    mkdir -p /tmp/kindle_copyparty/kindle/srv
-    mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/srv
+    mkdir -p /tmp/kindle_copyparty/kindle/copyparty/srv
+    mount -o bind /mnt/us/extensions/kindle_copyparty/copyparty/srv /tmp/kindle_copyparty/kindle/copyparty/srv
     cp /etc/hosts /tmp/kindle_copyparty/etc/hosts
 	chmod a+w /dev/shm
 	iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
@@ -34,7 +34,7 @@ else
 
 	echo "Unmounting Alpine! "
 	LOOPDEV="$(mount | grep loop | grep /tmp/kindle_copyparty | cut -d" " -f1)"
-	umount /tmp/kindle_copyparty/kindle/srv
+	umount /tmp/kindle_copyparty/kindle/copyparty/srv
 	umount /tmp/kindle_copyparty/run/dbus/
 	umount /tmp/kindle_copyparty/sys
 	sleep 3
