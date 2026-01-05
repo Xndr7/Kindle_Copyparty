@@ -24,7 +24,7 @@ if [ "$(mount | grep /tmp/kindle_copyparty)" ] ; then
 fi
 
 echo "You're now being dropped into Alpine's shell"
-chroot /tmp/kindle_copyparty /start_kindle_copyparty.sh
+chroot /tmp/kindle_copyparty /bin/bash /start_kindle_copyparty.sh
 
 if [ $ALREADYMOUNTED = "yes" ] ; then
 	echo "Umount is being skipped, as the rootfs was mounted already. You're now at your kindle's shell again."
