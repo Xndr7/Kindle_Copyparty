@@ -21,8 +21,8 @@ addgroup sudo
 addgroup alpine sudo
 su alpine -c \"cd ~
 mkdir -p /kindle/copyparty/srv 
-curl -o /kindle/copyparty/srv/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
-sudo iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
+curl -L -o /kindle/copyparty/srv/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
+#sudo iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
 
 echo \"You're now dropped into an interactive shell in Alpine, Type exit to leave.\"
 sh"
@@ -33,7 +33,7 @@ python3 /kindle/copyparty/srv/copyparty-sfx.py -c /copyparty.conf
 ' 
 COPYPARTYCONFIG='
 [global]
-  p: 8923 # listen on port 3923
+  p: 3923 # listen on port 3923
   i: 0.0.0.0
   e2dsa  # enable file indexing and filesystem scanning
   e2ts # and enable multimedia indexing
@@ -46,10 +46,10 @@ COPYPARTYCONFIG='
 
 # create volumes:
 [/]         # create a volume at "/" (the webroot), which will
-  /kindle/copyparty/srv        # share the contents of "." (the current directory)
+  /kindle/copyparty/srv        # share the contents of "/kindle/copyparty/srv" (the current directory)
   accs:
     r: *    # everyone gets read-access, but
-    rw: kindle  # the user "ed" gets read-write
+    rw: kindle  # the user "kindle" gets read-write
 '
 
 # ENSURE ROOT
