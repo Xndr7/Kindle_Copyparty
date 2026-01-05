@@ -21,7 +21,7 @@ addgroup sudo
 addgroup alpine sudo
 su alpine -c \"cd ~
 mkdir -p /kindle/copyparty/srv 
-curl -L -o /kindle/copyparty/srv/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
+#curl -L -o /kindle/copyparty/srv/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
 #sudo iptables -A INPUT -p tcp --dport 3923 -j ACCEPT
 
 echo \"You're now dropped into an interactive shell in Alpine, Type exit to leave.\"
@@ -29,16 +29,18 @@ sh"
 
 STARTKINDLECOPYPARTY='#!/bin/sh
 chmod a+w /dev/shm 
-python3 /kindle/copyparty/srv/copyparty-sfx.py -c /copyparty.conf
+curl -L -o /kindle/copyparty/srv/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
+COPYPARTY_CMD="python3 /kindle/copyparty/srv/copyparty-sfx.py -c /kindle/copyparty/copyparty.conf"
+exec /bin/bash -i -c "$COPYPARTY_CMD; exec /bin/bash"
+
 ' 
 COPYPARTYCONFIG='
 [global]
-  p: 3923 # listen on port 3923
+  # listen on port 3923
   i: 0.0.0.0
-  e2dsa  # enable file indexing and filesystem scanning
-  e2ts # and enable multimedia indexing
-  z, qr  # and zeroconf and qrcode (you can comma-separate arguments)
-  sss
+  e2dsa, e2ts, z, qr, sss # enable file indexing and filesystem scanning
+  # and enable multimedia indexing
+  # and zeroconf and qrcode (you can comma-separate arguments)
   
 # create users:
 [accounts]
