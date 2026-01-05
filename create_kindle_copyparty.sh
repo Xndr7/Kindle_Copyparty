@@ -124,10 +124,10 @@ chmod +x "$MNT/start_kindle_copyparty.sh"
 cp $(which qemu-arm-static) "$MNT/usr/bin/"
 # Chroot and run the setup as specified at the beginning of the script
 #echo "Chrooting into Alpine"
-chroot /mnt/alpine/ qemu-arm-static /bin/sh -c "$ALPINESETUP > /dev/null 2>&1"
+chroot /mnt/kindle_copyparty/ qemu-arm-static /bin/sh -c "$ALPINESETUP > /dev/null 2>&1"
 exec 1>&3 2>&4
 
-ALPINE_VERSION=$(sudo chroot /mnt/alpine cat /etc/alpine-release)
+ALPINE_VERSION=$(sudo chroot /mnt/kindle_copyparty cat /etc/alpine-release)
 
 # Print the Alpine version to the host
 echo "ALPINE_VERSION=$ALPINE_VERSION" 
