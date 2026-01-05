@@ -40,7 +40,7 @@ jobs:
         run: |
           FILE_NAME="kindle_copyparty_alpine$ALPINE_VERSION" 
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
-          sudo zip "$FILE_NAME.zip" ./kindle_copyparty.conf ./kindle_copyparty.sh ./kindle_copyparty.ext3
+          sudo zip "$FILE_NAME.zip" ./kindle_copyparty.conf ./kindle_copyparty.sh ./kindle_copyparty.ext3 ./start_kindle_copyparty.sh
 
       - name: Create GitHub Release and Upload Zip
         env:
