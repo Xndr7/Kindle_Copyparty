@@ -29,7 +29,7 @@ sh"
 
 STARTKINDLECOPYPARTY='#!/bin/sh
 chmod a+w /dev/shm 
-curl -L -o /kindle/copyparty/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
+#curl -L -o /kindle/copyparty/copyparty-sfx.py https://github.com/9001/copyparty/releases/latest/download/copyparty-sfx.py
 COPYPARTY_CMD="python3 /kindle/copyparty/copyparty-sfx.py -c /kindle/copyparty/copyparty.conf"
 exec /bin/bash -i -c "$COPYPARTY_CMD; exec /bin/bash"
 
@@ -118,7 +118,7 @@ $REPO/latest-stable/community" > "$MNT/etc/apk/repositories"
 echo "$STARTKINDLECOPYPARTY" > "$MNT/start_kindle_copyparty.sh"
 mkdir -p "$MNT/kindle/copyparty" 
 mkdir -p "$MNT/kindle/copyparty/srv" 
-echo "$COPYPARTYCONFIG" > "$MNT/kindle/copyparty/copyparty.conf"
+#echo "$COPYPARTYCONFIG" > "$MNT/kindle/copyparty/copyparty.conf"
 chmod +x "$MNT/start_kindle_copyparty.sh"
 
 
