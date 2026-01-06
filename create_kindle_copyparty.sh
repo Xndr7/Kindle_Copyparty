@@ -12,8 +12,8 @@ echo \"nameserver 1.1.1.1\" > /etc/resolv.conf
 mkdir /run/dbus
 apk update
 apk upgrade
-apk add curl sudo bash   #openssh vim git wget iproute2 net-tools
-apk add python3 py3-pillow ffmpeg  #py3-pip
+#apk add curl sudo bash   openssh vim git wget iproute2 net-tools
+apk add python3    # py3-pillow ffmpeg  #py3-pip
 adduser alpine -D
 echo -e \"alpine\nalpine\" | passwd alpine
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
