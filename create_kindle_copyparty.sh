@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 REPO="http://dl-cdn.alpinelinux.org/alpine"
 MNT="/mnt/kindle_copyparty"
